@@ -11,7 +11,7 @@ use OpenAdmin\Admin\Layout\Row;
 
 class HomeController extends Controller
 {
-    public function index(Content $content)
+    public function index(Content $content): Content
     {
         return $content
             ->css_file(Admin::asset("open-admin/css/pages/dashboard.css"))
