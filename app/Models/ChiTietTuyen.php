@@ -12,6 +12,8 @@ class ChiTietTuyen extends Model
 
     protected $table = 'chi_tiet_tuyen';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'ma_tuyen',
         'thu_tu_tram',

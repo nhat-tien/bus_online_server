@@ -71,12 +71,16 @@ class UserController extends AdminController
     {
         $form = new Form(new User());
 
-        $form->text('name', __('Name'));
+        $form->text('name', __('Tên'));
         $form->email('email', __('Email'));
-        $form->text('role', __('Role'));
-        $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
+        $selection = [
+            'customer' => 'Khách hàng',
+           'driver' => 'Tài xế',
+        ];
+        $form->select('role', __('Vai trò'))->options($selection)->default('customer');
+        // $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
         $form->password('password', __('Password'));
-        $form->text('remember_token', __('Remember token'));
+        // $form->text('remember_token', __('Remember token'));
 
         return $form;
     }

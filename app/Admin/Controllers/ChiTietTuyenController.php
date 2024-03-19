@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Models\ChiTietTuyen;
+use App\Models\Tram;
+use App\Models\Tuyen;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
@@ -61,9 +63,9 @@ class ChiTietTuyenController extends AdminController
     {
         $form = new Form(new ChiTietTuyen());
 
-        $form->text('ma_tuyen', __('Ma tuyen'));
+        $form->select('ma_tuyen', __("Ma tuyen"))->options(Tuyen::all()->pluck('ten_tuyen', 'ma_tuyen'));
         $form->text('thu_tu_tram', __('Thu tu tram'));
-        $form->text('ma_tram', __('Ma tram'));
+        $form->select('ma_tram', __("Ma tram"))->options(Tram::all()->pluck('ten_tram', 'ma_tram'));
 
         return $form;
     }

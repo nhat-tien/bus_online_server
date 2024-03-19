@@ -57,6 +57,7 @@ class TuyenController extends AdminController
     {
         $form = new Form(new Tuyen());
 
+        $form->text('ma_tuyen', __('Ma tuyen'));
         $form->text('ten_tuyen', __('Ten tuyen'));
 
         return $form;

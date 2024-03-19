@@ -57,6 +57,7 @@ class TramController extends AdminController
     {
         $form = new Form(new Tram());
 
+        $form->text('ma_tram', __('Ma tram'));
         $form->text('ten_tram', __('Ten tram'));
 
         return $form;

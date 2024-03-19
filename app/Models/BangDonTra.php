@@ -15,8 +15,8 @@ class BangDonTra extends Model
     protected $fillable = [
         'ma_chuyen',
         'ma_khach_hang',
-        'ma_tram_don',
-        'ma_tram_tra',
+        'ma_tram_di',
+        'ma_tram_den',
         'hoan_thanh',
     ];
 
@@ -27,11 +27,11 @@ class BangDonTra extends Model
 
     public function tramDon(): BelongsTo
     {
-        return $this->belongsTo(Tram::class, 'ma_tram_don', 'ma_tram');
+        return $this->belongsTo(Tram::class, 'ma_tram_di', 'ma_tram');
     }
 
     public function tramTra(): BelongsTo
     {
-        return $this->belongsTo(Tram::class, 'ma_tram_tra', 'ma_tram');
+        return $this->belongsTo(Tram::class, 'ma_tram_den', 'ma_tram');
     }
 }

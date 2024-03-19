@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::post('', $action)
-Route::group(['prefix' => 'v1'], function() {
+Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], function() {
 
     Route::post('register', [AuthController::class, 'register']);
 
@@ -24,6 +24,20 @@ Route::group(['prefix' => 'v1'], function() {
     Route::group(['middleware' => 'auth:sanctum'], function() {
 
         Route::post('logout', [AuthController::class, 'logout']);
+
+        /* TODO:
+        */
+        Route::get('user/information', function(){});
+
+        Route::get('tuyen', function(Request $request){
+            return [
+                "tramDi" => $request->query('tramdi'),
+                "tramDen" => $request->query('tramden'),
+            ];
+        });
+
+
+        Route::post('chuyen', function(){});
     });
 });
 

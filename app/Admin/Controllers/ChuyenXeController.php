@@ -3,6 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Models\ChuyenXe;
+use App\Models\Tuyen;
+use App\Models\User;
+use App\Models\Xe;
 use OpenAdmin\Admin\Controllers\AdminController;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
@@ -65,11 +68,12 @@ class ChuyenXeController extends AdminController
     {
         $form = new Form(new ChuyenXe());
 
-        $form->text('ma_tuyen', __('Ma tuyen'));
-        $form->number('ma_tai_xe', __('Ma tai xe'));
-        $form->text('ma_xe', __('Ma xe'));
+        $form->text('ma_chuyen', __("Ma chuyen"));
+        $form->select('ma_tuyen', __("Ma tuyen"))->options(Tuyen::all()->pluck('ten_tuyen', 'ma_tuyen'));
+        $form->select('ma_tai_xe', __("Ma tai xe"))->options(User::where('role', 'driver')->pluck('name', 'id'));
+        $form->select('ma_xe', __("Ma xe"))->options(Xe::all()->pluck('ma_xe', 'ma_xe'));
         $form->time('gio_bat_dau', __('Gio bat dau'))->default(date('H:i:s'));
-        $form->text('tinh_trang', __('Tinh trang'));
+        $form->select('tinh_trang', __("Tinh trang"))->options([ "0" => 'Vắng', "1" => "Bình thường", "2" => "Rất đông" ])->default("0");
 
         return $form;
     }

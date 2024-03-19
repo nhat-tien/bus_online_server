@@ -55,7 +55,7 @@ class XeController extends AdminController
     {
         $form = new Form(new Xe());
 
-
+        $form->text('ma_xe', __("Ma xe"));
 
         return $form;
     }
