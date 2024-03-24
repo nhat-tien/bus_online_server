@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('ma_tram_don');
             $table->string('ma_tram_tra');
             $table->boolean('hoan_thanh');
+            $table->string('trang_thai_thanh_toan');
+            $table->string('tien_phi');
             $table->timestamps();
         });
     }

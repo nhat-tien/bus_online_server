@@ -2,29 +2,123 @@
 
 namespace App\Http\Services\Api;
 
-use App\Http\Resources\ChiTietTuyenResource;
-use App\Http\Resources\TuyenResource;
+use App\Http\Resources\BangDonTraResource;
+use App\Models\BangDonTra;
 use App\Models\ChiTietTuyen;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerService
 {
-    /* TODO:
-    *  - dang ki chuyen xe
-    *  - Lay ten tuyen tu ma tram
-    *  - lay danh sach chuyen xe (kem thong tin) tu tuyen
-    *  - Dang ki chuyen xe
-    *  - Tinh tien chuyen di
-    */
-
-    /*
-    * @return array
-    */
-    public function chiTietTuyen(string $ma_tram): ChiTietTuyenResource
+    /**
+     * @return array<string,mixed>
+     */
+    public function dangKiChuyenXe(Request $request): array
     {
-        $tuyen = ChiTietTuyen::where('ma_tram',$ma_tram)->first()->tuyen();
+      try {
+            $validate = Validator::make($request->all(), [
+                'maTramDi' => ['required'],
+                'maTramDen' => ['required'],
+                'maTuyen' => ['required'],
+                'maChuyen' => ['required'],
+            ]);
 
-        return new TuyenResource($tuyen);
+            if ($validate->fails()) {
+               return [
+                    'code' => 400,
+                    'status' => false,
+                    'message' => 'Validation Error',
+                    'errors' => $validate->errors(),
+                ];
+            };
+
+            $user = $request->user();
+
+            $bangDonTra = BangDonTra::create([
+                'ma_chuyen' => $request->maChuyen,
+                'ma_khach_hang' => $user->id,
+                'ma_tram_di' => $request->maTramDi,
+                'ma_tram_den' => $request->maTramDen,
+                'hoan_thanh' => false,
+                'trang_thai_thanh_toan' => NULL,
+                'tien_phi' => $this->tinhTien($request->maTramDi, $request->maTramDen, $request->maTuyen),
+            ]);
+
+
+            return [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Dang Ki Thanh Cong',
+                'bangDonTra' => new BangDonTraResource($bangDonTra),
+            ];
+
+        } catch (\Throwable $th) {
+            return [
+                'code' => 500,
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
+    }
+
+    private function tinhTien(string $maTramDi, string $maTramDen, string $maTuyen): int
+    {
+
+        $tramDi = ChiTietTuyen::where('ma_tuyen', $maTuyen)->where('ma_tram', $maTramDi)->first();
+        $tramDen = ChiTietTuyen::where('ma_tuyen', $maTuyen)->where('ma_tram', $maTramDen)->first();
+
+        $thuTuCuaTramDi = $tramDi->thu_tu_tram;
+        $thuTuCuaTramDen = $tramDen->thu_tu_tram;
+
+        $tatCaTram = ChiTietTuyen::where('ma_tuyen', $maTuyen)->get();
+
+        $tongTien = 0;
+
+        if($thuTuCuaTramDi < $thuTuCuaTramDen) {
+            foreach ($tatCaTram as $tram) {
+                if($tram->thu_tu_tram >= $thuTuCuaTramDi && $tram->thu_tu_tram < $thuTuCuaTramDen)
+                {
+                   $tongTien += $tram->tien_phi;
+                }
+            }
+        } else {
+             foreach ($tatCaTram as $tram) {
+                if($tram->thu_tu_tram < $thuTuCuaTramDi && $tram->thu_tu_tram >= $thuTuCuaTramDen)
+                {
+                   $tongTien += $tram->tien_phi;
+                }
+            }
+        };
+
+        return $tongTien;
+    }
+
+
+    /**
+     * @return array<string,mixed>
+     */
+    public function choThanhToan(int $id): array
+    {
+      try {
+
+            BangDonTra::find($id)->update(['trang_thai_thanh_toan' => 'wait']);
+
+            $bangDonTra = BangDonTra::find($id)->first();
+
+            return [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Cap Nhat Thanh Cong',
+                'bangDonTra' => new BangDonTraResource($bangDonTra),
+            ];
+
+        } catch (\Throwable $th) {
+            return [
+                'code' => 500,
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
     }
 
 }

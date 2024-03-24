@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'phone_number',
     ];
 
     /**
@@ -51,5 +52,10 @@ class User extends Authenticatable
     public function chuyenXe(): HasMany
     {
       return $this->hasMany(ChuyenXe::class, 'ma_tai_xe');
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role == $role;
     }
 }

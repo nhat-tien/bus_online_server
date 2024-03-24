@@ -32,6 +32,8 @@ class BangDonTraController extends AdminController
         $grid->column('ma_tram_di', __('Ma tram di'));
         $grid->column('ma_tram_den', __('Ma tram den'));
         $grid->column('hoan_thanh', __('Hoan thanh'));
+        $grid->column('trang_thai_thanh_toan', __('Trang thai thanh toan'));
+        $grid->column('tien_phi', __('Tien phi'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -54,6 +56,8 @@ class BangDonTraController extends AdminController
         $show->field('ma_tram_di', __('Ma tram di'));
         $show->field('ma_tram_den', __('Ma tram den'));
         $show->field('hoan_thanh', __('Hoan thanh'));
+        $show->field('trang_thai_thanh_toan', __('Trang thai thanh toan'));
+        $show->field('tien_phi', __('Tien phi'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -74,7 +78,8 @@ class BangDonTraController extends AdminController
         $form->text('ma_tram_di', __('Ma tram di'));
         $form->text('ma_tram_den', __('Ma tram den'));
         $form->switch('hoan_thanh', __('Hoan thanh'));
-
+        $form->select('trang_thai_thanh_toan', __('Trang thai thanh toan'))->options([NULL => 'NULL', 'wait' => 'Đợi', 'done' => 'Xong'])->default(NULL);
+        $form->text('tien_phi', __('Tien phi'));
         return $form;
     }
 }

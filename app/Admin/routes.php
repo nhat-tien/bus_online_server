@@ -10,6 +10,7 @@ use App\Admin\Controllers\TramController;
 use App\Admin\Controllers\TuyenController;
 use App\Admin\Controllers\UserController;
 use App\Admin\Controllers\XeController;
+use App\Admin\Controllers\DoanhThuController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use OpenAdmin\Admin\Facades\Admin;
@@ -33,5 +34,6 @@ Route::group([
     $router->resource('/tram', TramController::class);
     $router->resource('/tuyen', TuyenController::class);
     $router->resource('/xe',XeController::class);
+    $router->resource('/doanh-thu',DoanhThuController::class);
 
 });

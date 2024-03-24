@@ -18,6 +18,7 @@ class ChiTietTuyen extends Model
         'ma_tuyen',
         'thu_tu_tram',
         'ma_tram',
+        'tien_phi',
     ];
 
     public function tram(): BelongsTo

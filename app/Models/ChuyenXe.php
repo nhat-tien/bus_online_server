@@ -26,7 +26,8 @@ class ChuyenXe extends Model
         'ma_tuyen',
         'ma_tai_xe',
         'ma_xe',
-        'gio_bat_dau',
+        'luot_di',
+        'luot_ve',
         'tinh_trang',
     ];
 

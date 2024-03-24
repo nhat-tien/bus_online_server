@@ -30,6 +30,7 @@ class UserController extends AdminController
         $grid->column('name', __('Name'));
         $grid->column('email', __('Email'));
         $grid->column('role', __('Role'));
+        $grid->column('phone_number', __('Phone number'));
         $grid->column('email_verified_at', __('Email verified at'));
         $grid->column('password', __('Password'));
         $grid->column('remember_token', __('Remember token'));
@@ -53,6 +54,7 @@ class UserController extends AdminController
         $show->field('name', __('Name'));
         $show->field('email', __('Email'));
         $show->field('role', __('Role'));
+        $show->field('phone_number', __('Phone number'));
         $show->field('email_verified_at', __('Email verified at'));
         $show->field('password', __('Password'));
         $show->field('remember_token', __('Remember token'));
@@ -77,6 +79,7 @@ class UserController extends AdminController
             'customer' => 'Khách hàng',
            'driver' => 'Tài xế',
         ];
+        $form->text('phone_number', __('Phone number'));
         $form->select('role', __('Vai trò'))->options($selection)->default('customer');
         // $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
         $form->password('password', __('Password'));

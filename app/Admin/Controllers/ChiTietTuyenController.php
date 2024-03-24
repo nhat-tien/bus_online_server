@@ -32,6 +32,7 @@ class ChiTietTuyenController extends AdminController
         $grid->column('ma_tuyen', __('Ma tuyen'));
         $grid->column('thu_tu_tram', __('Thu tu tram'));
         $grid->column('ma_tram', __('Ma tram'));
+        $grid->column('tien_phi', __('Tien phi'));
 
         return $grid;
     }
@@ -50,6 +51,7 @@ class ChiTietTuyenController extends AdminController
         $show->field('ma_tuyen', __('Ma tuyen'));
         $show->field('thu_tu_tram', __('Thu tu tram'));
         $show->field('ma_tram', __('Ma tram'));
+        $show->field('tien_phi', __('Tien phi'));
 
         return $show;
     }
@@ -66,6 +68,7 @@ class ChiTietTuyenController extends AdminController
         $form->select('ma_tuyen', __("Ma tuyen"))->options(Tuyen::all()->pluck('ten_tuyen', 'ma_tuyen'));
         $form->text('thu_tu_tram', __('Thu tu tram'));
         $form->select('ma_tram', __("Ma tram"))->options(Tram::all()->pluck('ten_tram', 'ma_tram'));
+        $form->number('tien_phi', __('Tien phi'));
 
         return $form;
     }

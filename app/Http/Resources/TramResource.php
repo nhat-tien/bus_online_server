@@ -14,6 +14,10 @@ class TramResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'maTram' => $this->ma_tram,
+            'tenTram' => $this->ten_tram,
+            'tuyen' => ChiTietTuyenResource::collection($this->whenLoaded('chiTietTuyen')),
+        ];
     }
 }

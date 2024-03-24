@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Api;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,8 @@ class AuthenticatedService
                 'status' => true,
                 'message' => 'User Created Successful',
                 'token' => $token->plainTextToken,
-                'tokenType' => 'Bearer'
+                'tokenType' => 'Bearer',
+                'user' => new UserResource($user),
             ];
         } catch (\Throwable $th) {
             return [
@@ -81,7 +83,8 @@ class AuthenticatedService
         try {
             $validateUser = Validator::make($request->all(), [
                 'email' => ['required', 'email'],
-                'password' => ['required']
+                'password' => ['required'],
+                'role' => ['required'],
             ]);
 
             if ($validateUser->fails()) {
@@ -94,7 +97,7 @@ class AuthenticatedService
                 ];
             };
 
-            if(!Auth::attempt($request->only(['email', 'password']))) {
+            if(!Auth::attempt($request->only(['email', 'password', 'role']))) {
                 return [
                     'code' => 401,
                     'status' => false,
@@ -111,56 +114,8 @@ class AuthenticatedService
                 'status' => true,
                 'message' => 'Login Successful',
                 'token' => $token->plainTextToken,
-                'tokenType' => 'Bearer'
-            ];
-
-        } catch (\Throwable $th) {
-            return [
-                'code' => 500,
-                'status' => false,
-                'message' => $th->getMessage()
-            ];
-        }
-    }
-    /**
-     * @return array<string,mixed>
-     */
-    public function loginForDriver(Request $request): array
-    {
-        try {
-            $validateUser = Validator::make($request->all(), [
-                'email' => ['required', 'email'],
-                'password' => ['required']
-            ]);
-
-            if ($validateUser->fails()) {
-
-               return [
-                    'code' => 400,
-                    'status' => false,
-                    'message' => 'Validation Error',
-                    'errors' => $validateUser->errors()
-                ];
-            };
-
-            if(!Auth::attempt($request->only(['email', 'password']))) {
-                return [
-                    'code' => 401,
-                    'status' => false,
-                    'message' => 'Email or password incorrect',
-                ];
-            }
-
-            $user = User::where('email', $request->email)->where('role', 'driver')->first();
-
-            $token = $user->createtoken('access_token');
-
-            return [
-                'code' => 200,
-                'status' => true,
-                'message' => 'Login Successful',
-                'token' => $token->plainTextToken,
-                'tokenType' => 'Bearer'
+                'tokenType' => 'Bearer',
+                'user' => new UserResource($user),
             ];
 
         } catch (\Throwable $th) {

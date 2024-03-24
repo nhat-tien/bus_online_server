@@ -17,13 +17,7 @@ class AuthController extends Controller
 	*/
 	public function login(Request $request): JsonResponse
     {
-        $role = $request->query('role');
-
-        if ($role == 'driver') {
-            $response = $this->auth->loginForDriver($request);
-        } else {
-            $response = $this->auth->login($request);
-        }
+        $response = $this->auth->login($request);
 
 		return response()->json($response, $response['code']);
     }
