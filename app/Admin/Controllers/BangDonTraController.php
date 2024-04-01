@@ -26,6 +26,20 @@ class BangDonTraController extends AdminController
     {
         $grid = new Grid(new BangDonTra());
 
+        $grid->filter(function($filter) {
+            $filter->disableIdFilter();
+            $filter->equal('hoan_thanh', 'Hoan Thanh')->radio([
+                1    => 'true',
+                0    => 'false',
+            ]);
+            $filter->equal('trang_thai_thanh_toan', 'Trang thai thanh toan')->checkbox([
+                NULL => 'Khong xac dinh',
+                'wait' => 'Dang doi',
+                'done' => 'Xong',
+            ]);;
+
+        });
+
         $grid->column('id', __('Id'));
         $grid->column('ma_chuyen', __('Ma chuyen'));
         $grid->column('ma_khach_hang', __('Ma khach hang'));

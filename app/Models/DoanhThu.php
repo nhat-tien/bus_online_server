@@ -20,12 +20,23 @@ class DoanhThu extends Model
         parent::boot();
 
         static::creating(function ($doanhThu) {
+            $tongDoanhThu = 0;
+            $doanhThuTrongNgay = BangDonTra::whereDate('created_at', $doanhThu->ngay_lap_thong_ke)->where('trang_thai_thanh_toan', 'done')->get();
+            foreach ($doanhThuTrongNgay as $doanhThuTungKhach) {
+                $tongDoanhThu += $doanhThuTungKhach->tien_phi;
+            };
 
-            // add other column as well
+            $doanhThu->tong_doanh_thu = $tongDoanhThu;
         });
 
         static::updating(function ($doanhThu) {
-             // add other column as well
+            $tongDoanhThu = 0;
+            $doanhThuTrongNgay = BangDonTra::whereDate('created_at', $doanhThu->ngay_lap_thong_ke)->where('trang_thai_thanh_toan', 'done')->get();
+            foreach ($doanhThuTrongNgay as $doanhThuTungKhach) {
+                $tongDoanhThu += $doanhThuTungKhach->tien_phi;
+            };
+
+            $doanhThu->tong_doanh_thu = $tongDoanhThu;
         });
 
     }
