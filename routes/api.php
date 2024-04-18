@@ -44,6 +44,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
 
         Route::group(['prefix' => 'customer','middleware' => 'role:customer'], function () {
 
+            Route::get('/bang-don-tra',[BangDonTraController::class, 'getChuyenXeDaDangKi'] );
+
             Route::post('/bang-don-tra', [BangDonTraController::class, 'create']);
 
             Route::put('/bang-don-tra/{id}', [BangDonTraController::class, 'choThanhToan']);
@@ -51,6 +53,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
         });
 
         Route::group(['prefix' => 'driver', 'middleware' => 'role:driver'], function () {
+
+            Route::get('/bang-don-tra',[BangDonTraController::class, 'getChuyenXeCuaTaiXe'] );
 
             Route::put('/bang-don-tra/{id}/hoan-thanh', [BangDonTraController::class, 'hoanThanh']);
 

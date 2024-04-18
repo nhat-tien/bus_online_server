@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Api;
 
+use App\Http\Resources\BangDonTraCollection;
 use App\Http\Resources\BangDonTraResource;
 use App\Models\BangDonTra;
 
@@ -52,6 +53,23 @@ class DriverService
                 'message' => 'Cap Nhat Thanh Cong',
                 'bangDonTra' => new BangDonTraResource($bangDonTra),
             ];
+
+        } catch (\Throwable $th) {
+            return [
+                'code' => 500,
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
+    }
+
+
+    public function getChuyenXe(string $maChuyen): BangDonTraCollection
+    {
+        try {
+
+            $bangDonTra = BangDonTra::where('ma_chuyen', $maChuyen)->where('hoan_thanh', false)->get();
+            return  new BangDonTraCollection($bangDonTra);
 
         } catch (\Throwable $th) {
             return [

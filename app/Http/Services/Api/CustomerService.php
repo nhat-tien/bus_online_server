@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Api;
 
+use App\Http\Resources\BangDonTraCollection;
 use App\Http\Resources\BangDonTraResource;
 use App\Models\BangDonTra;
 use App\Models\ChiTietTuyen;
@@ -91,6 +92,20 @@ class CustomerService
         };
 
         return $tongTien;
+    }
+
+    public function getChuyenXeDangKi(int $id): BangDonTraCollection
+    {
+      try {
+            $bangDonTra = BangDonTra::where('ma_khach_hang', $id)->where('hoan_thanh', false)->get();
+            return  new BangDonTraCollection($bangDonTra);
+        } catch (\Throwable $th) {
+            return [
+                'code' => 500,
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
     }
 
 
