@@ -31,6 +31,12 @@ class BangDonTraController extends Controller
         return $response;
     }
 
+    public function thongBaoTienCanTra(Request $request): JsonResponse
+    {
+        $response = $this->customer->thongBaoTienCanTra($request);
+
+        return response()->json($response, $response['code']);
+    }
 
     public function create(Request $request): JsonResponse
     {

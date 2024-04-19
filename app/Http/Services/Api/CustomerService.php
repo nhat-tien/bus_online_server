@@ -135,5 +135,31 @@ class CustomerService
             ];
         }
     }
+    /**
+     * @return array<string,mixed>
+     */
+    public function thongBaoTienCanTra(Request $request): array
+    {
+        try {
 
+            $maTramDi = $request->query('maTramDi');
+            $maTramDen = $request->query('maTramDen');
+            $maTuyen = $request->query('maTuyen');
+            $tienPhi = $this->tinhTien($maTramDi, $maTramDen, $maTuyen);
+
+
+            return [
+                'code' => 200,
+                'status' => true,
+                'tienPhi' => $tienPhi,
+            ];
+
+        } catch (\Throwable $th) {
+            return [
+                'code' => 500,
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
+    }
 }

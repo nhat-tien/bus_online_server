@@ -46,6 +46,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
 
             Route::get('/bang-don-tra',[BangDonTraController::class, 'getChuyenXeDaDangKi'] );
 
+            Route::get('/bang-don-tra/tinh-tien',[BangDonTraController::class, 'thongBaoTienCanTra'] );
+
             Route::post('/bang-don-tra', [BangDonTraController::class, 'create']);
 
             Route::put('/bang-don-tra/{id}', [BangDonTraController::class, 'choThanhToan']);
