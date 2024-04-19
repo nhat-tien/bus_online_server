@@ -32,7 +32,7 @@ class Tram extends Model
 
     public function traKhach(): HasMany
     {
-        return $this->hasMany(BangDonTra::class, 'ma_tram_di', 'ma_tram');
+        return $this->hasMany(BangDonTra::class, 'ma_tram_den', 'ma_tram');
     }
 
     public function chiTietTuyen(): HasMany

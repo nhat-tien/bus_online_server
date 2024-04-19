@@ -54,6 +54,11 @@ class User extends Authenticatable
       return $this->hasMany(ChuyenXe::class, 'ma_tai_xe');
     }
 
+    public function bangDonTra(): HasMany
+    {
+        return $this->hasMany(BangDonTra::class, 'ma_khach_hang');
+    }
+
     public function hasRole(string $role): bool
     {
         return $this->role == $role;

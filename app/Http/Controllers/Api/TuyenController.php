@@ -19,7 +19,7 @@ class TuyenController extends Controller
      */
     public function showTram(string $ma_tuyen): TuyenResource
     {
-        $tuyen = Tuyen::where('ma_tuyen', $ma_tuyen)->with("chiTietTuyen")->first();
+        $tuyen = Tuyen::where('ma_tuyen', $ma_tuyen)->with("chiTietTuyen.tram")->first();
 
         return new TuyenResource($tuyen);
     }

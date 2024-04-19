@@ -16,7 +16,7 @@ class CustomerService
      */
     public function dangKiChuyenXe(Request $request): array
     {
-      try {
+        try {
             $validate = Validator::make($request->all(), [
                 'maTramDi' => ['required'],
                 'maTramDen' => ['required'],
@@ -25,12 +25,12 @@ class CustomerService
             ]);
 
             if ($validate->fails()) {
-               return [
-                    'code' => 400,
-                    'status' => false,
-                    'message' => 'Validation Error',
-                    'errors' => $validate->errors(),
-                ];
+                return [
+                     'code' => 400,
+                     'status' => false,
+                     'message' => 'Validation Error',
+                     'errors' => $validate->errors(),
+                 ];
             };
 
             $user = $request->user();
@@ -41,7 +41,7 @@ class CustomerService
                 'ma_tram_di' => $request->maTramDi,
                 'ma_tram_den' => $request->maTramDen,
                 'hoan_thanh' => false,
-                'trang_thai_thanh_toan' => NULL,
+                'trang_thai_thanh_toan' => null,
                 'tien_phi' => $this->tinhTien($request->maTramDi, $request->maTramDen, $request->maTuyen),
             ]);
 
@@ -77,16 +77,14 @@ class CustomerService
 
         if($thuTuCuaTramDi < $thuTuCuaTramDen) {
             foreach ($tatCaTram as $tram) {
-                if($tram->thu_tu_tram >= $thuTuCuaTramDi && $tram->thu_tu_tram < $thuTuCuaTramDen)
-                {
-                   $tongTien += $tram->tien_phi;
+                if($tram->thu_tu_tram >= $thuTuCuaTramDi && $tram->thu_tu_tram < $thuTuCuaTramDen) {
+                    $tongTien += $tram->tien_phi;
                 }
             }
         } else {
-             foreach ($tatCaTram as $tram) {
-                if($tram->thu_tu_tram < $thuTuCuaTramDi && $tram->thu_tu_tram >= $thuTuCuaTramDen)
-                {
-                   $tongTien += $tram->tien_phi;
+            foreach ($tatCaTram as $tram) {
+                if($tram->thu_tu_tram < $thuTuCuaTramDi && $tram->thu_tu_tram >= $thuTuCuaTramDen) {
+                    $tongTien += $tram->tien_phi;
                 }
             }
         };
@@ -96,8 +94,8 @@ class CustomerService
 
     public function getChuyenXeDangKi(int $id): BangDonTraCollection
     {
-      try {
-            $bangDonTra = BangDonTra::where('ma_khach_hang', $id)->where('hoan_thanh', false)->get();
+        try {
+            $bangDonTra = BangDonTra::where('ma_khach_hang', $id)->where('hoan_thanh', false)->with('tramDon')->with('tramTra')->with('user')->get();
             return  new BangDonTraCollection($bangDonTra);
         } catch (\Throwable $th) {
             return [
@@ -114,7 +112,7 @@ class CustomerService
      */
     public function choThanhToan(int $id): array
     {
-      try {
+        try {
 
             BangDonTra::find($id)->update(['trang_thai_thanh_toan' => 'wait']);
 

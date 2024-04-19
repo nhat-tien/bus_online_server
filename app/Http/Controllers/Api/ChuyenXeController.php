@@ -10,7 +10,7 @@ class ChuyenXeController extends Controller
 {
     public function index(string $ma_tuyen): TuyenResource
     {
-        $tuyen = Tuyen::where('ma_tuyen', $ma_tuyen)->with('chuyenXe')->first();
+        $tuyen = Tuyen::where('ma_tuyen', $ma_tuyen)->with('chuyenXe.user')->first();
 
         return new TuyenResource($tuyen);
 

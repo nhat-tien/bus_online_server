@@ -27,6 +27,11 @@ class BangDonTra extends Model
       return $this->belongsTo(ChuyenXe::class, 'ma_chuyen','ma_chuyen' );
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'ma_khach_hang', 'id');
+    }
+
     public function tramDon(): BelongsTo
     {
         return $this->belongsTo(Tram::class, 'ma_tram_di', 'ma_tram');
