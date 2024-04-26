@@ -45,16 +45,9 @@ class BangDonTraController extends Controller
         return response()->json($response, $response['code']);
     }
 
-    public function choThanhToan(Request $request, int $id): JsonResponse
+    public function suDungVe(Request $request): JsonResponse
     {
-        $response = $this->customer->choThanhToan($id);
-
-        return response()->json($response, $response['code']);
-    }
-
-    public function xacNhanThanhToan(Request $request, int $id): JsonResponse
-    {
-        $response = $this->driver->xacNhanThanhToan($id);
+        $response = $this->customer->suDungVe($request);
 
         return response()->json($response, $response['code']);
     }

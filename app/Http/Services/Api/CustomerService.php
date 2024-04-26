@@ -22,6 +22,7 @@ class CustomerService
                 'maTramDen' => ['required'],
                 'maTuyen' => ['required'],
                 'maChuyen' => ['required'],
+                'soLuong' => ['required'],
             ]);
 
             if ($validate->fails()) {
@@ -43,6 +44,7 @@ class CustomerService
                 'hoan_thanh' => false,
                 'trang_thai_thanh_toan' => null,
                 'tien_phi' => $this->tinhTien($request->maTramDi, $request->maTramDen, $request->maTuyen),
+                'so_luong' => $request->soLuong,
             ]);
 
 
@@ -62,7 +64,7 @@ class CustomerService
         }
     }
 
-    private function tinhTien(string $maTramDi, string $maTramDen, string $maTuyen): int
+    private function tinhTien(string $maTramDi, string $maTramDen, string $maTuyen, int $soLuong): int
     {
 
         $tramDi = ChiTietTuyen::where('ma_tuyen', $maTuyen)->where('ma_tram', $maTramDi)->first();
@@ -89,7 +91,7 @@ class CustomerService
             }
         };
 
-        return $tongTien;
+        return $tongTien*$soLuong;
     }
 
     public function getChuyenXeDangKi(int $id): BangDonTraCollection
@@ -106,6 +108,46 @@ class CustomerService
         }
     }
 
+    /**
+     * @return array<string,mixed>
+     */
+    public function suDungVe(Request $request): array
+    {
+        try {
+
+            $validate = Validator::make($request->all(), [
+                'id' => ['required','numeric'],
+                'maChuyen' => ['required'],
+            ]);
+
+            if ($validate->fails()) {
+                return [
+                     'code' => 400,
+                     'status' => false,
+                     'message' => 'Validation Error',
+                     'errors' => $validate->errors(),
+                 ];
+            };
+
+            BangDonTra::find($id)->update(['trang_thai_thanh_toan' => 'wait']);
+
+            $bangDonTra = BangDonTra::find($id)->first();
+
+            return [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Cap Nhat Thanh Cong',
+                'bangDonTra' => new BangDonTraResource($bangDonTra),
+            ];
+
+        } catch (\Throwable $th) {
+            return [
+                'code' => 500,
+                'status' => false,
+                'message' => $th->getMessage()
+            ];
+        }
+    }
 
     /**
      * @return array<string,mixed>
@@ -143,8 +185,8 @@ class CustomerService
             $maTramDi = $request->query('maTramDi');
             $maTramDen = $request->query('maTramDen');
             $maTuyen = $request->query('maTuyen');
-            $tienPhi = $this->tinhTien($maTramDi, $maTramDen, $maTuyen);
-
+            $soLuong = $request->query('soLuong');
+            $tienPhi = $this->tinhTien($maTramDi, $maTramDen, $maTuyen, $soLuong);
 
             return [
                 'code' => 200,

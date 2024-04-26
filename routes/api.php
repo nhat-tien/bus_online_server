@@ -50,7 +50,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
 
             Route::post('/bang-don-tra', [BangDonTraController::class, 'create']);
 
-            Route::put('/bang-don-tra/{id}', [BangDonTraController::class, 'choThanhToan']);
+            Route::patch('/bang-don-tra', [BangDonTraController::class, 'suDungVe']);
 
         });
 
@@ -60,7 +60,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
 
             Route::put('/bang-don-tra/{id}/hoan-thanh', [BangDonTraController::class, 'hoanThanh']);
 
-            Route::put('/bang-don-tra/{id}', [BangDonTraController::class, 'xacNhanThanhToan']);
+            // Route::put('/bang-don-tra/{id}', [BangDonTraController::class, 'xacNhanThanhToan']);
         });
 
     });

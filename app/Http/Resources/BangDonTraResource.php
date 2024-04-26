@@ -30,6 +30,7 @@ class BangDonTraResource extends JsonResource
             'hoanThanh' => $this->hoan_thanh,
             'trangThaiThanhToan' => $this->trang_thai_thanh_toan,
             'tienPhi' => $this->tien_phi,
+            'soLuong' => $this->so_luong,
         ];
     }
 }
