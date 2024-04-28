@@ -5,19 +5,45 @@ namespace App\Http\Services\Api;
 use App\Http\Resources\BangDonTraCollection;
 use App\Http\Resources\BangDonTraResource;
 use App\Models\BangDonTra;
+use App\Models\ChuyenXe;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DriverService
 {
     /**
      * @return array<string,mixed>
      */
-    public function xacNhanThanhToan(int $id): array
+    public function hoanThanh(Request $request): array
     {
         try {
+            $validate = Validator::make($request->all(), [
+                'id' => ['required','numeric'],
+            ]);
 
-            BangDonTra::find($id)->update(['trang_thai_thanh_toan' => 'done']);
+            if ($validate->fails()) {
+                return [
+                     'code' => 400,
+                     'status' => false,
+                     'message' => 'Validation Error',
+                     'errors' => $validate->errors(),
+                 ];
+            };
 
-            $bangDonTra = BangDonTra::find($id)->first();
+            $chuyenXe = ChuyenXe::where('ma_tai_xe',$request->user()->id)->first();
+            $bangDonTra = BangDonTra::find($request->id);
+
+            if($chuyenXe->ma_chuyen != $bangDonTra->ma_chuyen) {
+                return [
+                     'code' => 400,
+                     'status' => false,
+                     'message' => 'Ma Chuyen Khong Khop',
+                 ];
+            }
+
+            $bangDonTra->hoan_thanh = true;
+
+            $bangDonTra->save();
 
             return [
                 'code' => 200,
@@ -34,43 +60,21 @@ class DriverService
             ];
         }
     }
-
 
     /**
      * @return array<string,mixed>
      */
-    public function hoanThanh(int $id): array
+    public function getChuyenXe(Request $request): array
     {
         try {
-
-            BangDonTra::find($id)->update(['hoan_thanh' => true]);
-
-            $bangDonTra = BangDonTra::find($id)->first();
-
+            $maTaiXe = $request->user()->id;
+            $chuyenXe = ChuyenXe::where('ma_tai_xe', $maTaiXe)->first();
+            $bangDonTra = BangDonTra::where('ma_chuyen', $chuyenXe->ma_chuyen)->where('hoan_thanh', false)->get();
             return [
                 'code' => 200,
                 'status' => true,
-                'message' => 'Cap Nhat Thanh Cong',
-                'bangDonTra' => new BangDonTraResource($bangDonTra),
+                'bangDonTra' => new BangDonTraCollection($bangDonTra),
             ];
-
-        } catch (\Throwable $th) {
-            return [
-                'code' => 500,
-                'status' => false,
-                'message' => $th->getMessage()
-            ];
-        }
-    }
-
-
-    public function getChuyenXe(string $maChuyen): BangDonTraCollection
-    {
-        try {
-
-            $bangDonTra = BangDonTra::where('ma_chuyen', $maChuyen)->where('hoan_thanh', false)->get();
-            return  new BangDonTraCollection($bangDonTra);
-
         } catch (\Throwable $th) {
             return [
                 'code' => 500,

@@ -58,7 +58,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
 
             Route::get('/bang-don-tra',[BangDonTraController::class, 'getChuyenXeCuaTaiXe'] );
 
-            Route::put('/bang-don-tra/{id}/hoan-thanh', [BangDonTraController::class, 'hoanThanh']);
+            Route::patch('/bang-don-tra', [BangDonTraController::class, 'hoanThanh']);
 
             // Route::put('/bang-don-tra/{id}', [BangDonTraController::class, 'xacNhanThanhToan']);
         });

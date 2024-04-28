@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\BangDonTraCollection;
 use App\Http\Services\Api\CustomerService;
 use App\Http\Services\Api\DriverService;
-use App\Models\ChuyenXe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -17,18 +16,18 @@ class BangDonTraController extends Controller
         protected DriverService $driver
     ){}
 
-    public function getChuyenXeDaDangki(Request $request): BangDonTraCollection
+    public function getChuyenXeDaDangKi(Request $request): JsonResponse
     {
-        $response = $this->customer->getChuyenXeDangKi($request->user()->id);
-        return $response;
+        $response = $this->customer->getChuyenXeDangKi($request);
+
+        return response()->json($response, $response['code']);
     }
 
-    public function getChuyenXeCuaTaiXe(Request $request): BangDonTraCollection
+    public function getChuyenXeCuaTaiXe(Request $request): JsonResponse
     {
-        $chuyen = ChuyenXe::where('ma_tai_xe', $request->user()->id)->first();
-        $maChuyen = $chuyen->maChuyen;
-        $response = $this->driver->getChuyenXe($maChuyen);
-        return $response;
+        $response = $this->driver->getChuyenXe($request);
+
+        return response()->json($response, $response['code']);
     }
 
     public function thongBaoTienCanTra(Request $request): JsonResponse
@@ -52,9 +51,9 @@ class BangDonTraController extends Controller
         return response()->json($response, $response['code']);
     }
 
-    public function hoanThanh(Request $request, int $id): JsonResponse
+    public function hoanThanh(Request $request): JsonResponse
     {
-        $response = $this->driver->hoanThanh($id);
+        $response = $this->driver->hoanThanh($request);
 
         return response()->json($response, $response['code']);
     }

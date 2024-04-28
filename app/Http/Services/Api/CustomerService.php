@@ -22,7 +22,7 @@ class CustomerService
                 'maTramDen' => ['required'],
                 'maTuyen' => ['required'],
                 'maChuyen' => ['required'],
-                'soLuong' => ['required'],
+                'soLuong' => ['required','numeric'],
             ]);
 
             if ($validate->fails()) {
@@ -43,7 +43,7 @@ class CustomerService
                 'ma_tram_den' => $request->maTramDen,
                 'hoan_thanh' => false,
                 'trang_thai_thanh_toan' => null,
-                'tien_phi' => $this->tinhTien($request->maTramDi, $request->maTramDen, $request->maTuyen),
+                'tien_phi' => $this->tinhTien($request->maTramDi, $request->maTramDen, $request->maTuyen, $request->soLuong),
                 'so_luong' => $request->soLuong,
             ]);
 
@@ -93,12 +93,18 @@ class CustomerService
 
         return $tongTien*$soLuong;
     }
-
-    public function getChuyenXeDangKi(int $id): BangDonTraCollection
+    /**
+     * @return array<string,mixed>
+     */
+    public function getChuyenXeDangKi(Request $request): array
     {
         try {
-            $bangDonTra = BangDonTra::where('ma_khach_hang', $id)->where('hoan_thanh', false)->with('tramDon')->with('tramTra')->with('user')->get();
-            return  new BangDonTraCollection($bangDonTra);
+            $bangDonTra = BangDonTra::where('ma_khach_hang', $request->user()->id)->where('hoan_thanh', false)->with('tramDon')->with('tramTra')->with('user')->with('chuyenXe')->get();
+            return [
+                'code' => 200,
+                'status' => true,
+                'bangDonTra' => new BangDonTraCollection($bangDonTra),
+            ];
         } catch (\Throwable $th) {
             return [
                 'code' => 500,
@@ -129,15 +135,25 @@ class CustomerService
                  ];
             };
 
-            BangDonTra::find($id)->update(['trang_thai_thanh_toan' => 'wait']);
+            $hoaDon = BangDonTra::find($request->id);
 
-            $bangDonTra = BangDonTra::find($id)->first();
+            if($request->maChuyen != $hoaDon->ma_chuyen) {
+                return [
+                     'code' => 400,
+                     'status' => false,
+                     'message' => 'Ma Chuyen Khong Khop',
+                 ];
+            }
+
+            $hoaDon->trang_thai_thanh_toan = "done";
+
+            $hoaDon->save();
 
             return [
                 'code' => 200,
                 'status' => true,
                 'message' => 'Cap Nhat Thanh Cong',
-                'bangDonTra' => new BangDonTraResource($bangDonTra),
+                'bangDonTra' => new BangDonTraResource($hoaDon),
             ];
 
         } catch (\Throwable $th) {
