@@ -23,6 +23,7 @@ class CustomerService
                 'maTuyen' => ['required'],
                 'maChuyen' => ['required'],
                 'soLuong' => ['required','numeric'],
+                'chieu' => ['required'],
             ]);
 
             if ($validate->fails()) {
