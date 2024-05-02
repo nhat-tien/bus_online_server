@@ -45,6 +45,7 @@ class CustomerService
                 'trang_thai_thanh_toan' => null,
                 'tien_phi' => $this->tinhTien($request->maTramDi, $request->maTramDen, $request->maTuyen, $request->soLuong),
                 'so_luong' => $request->soLuong,
+                'chieu' => $request->chieu,
             ]);
 
 
@@ -99,7 +100,7 @@ class CustomerService
     public function getChuyenXeDangKi(Request $request): array
     {
         try {
-            $bangDonTra = BangDonTra::where('ma_khach_hang', $request->user()->id)->where('hoan_thanh', false)->with('tramDon')->with('tramTra')->with('user')->with('chuyenXe')->get();
+            $bangDonTra = BangDonTra::where('ma_khach_hang', $request->user()->id)->where('trang_thai_thanh_toan', null)->where('hoan_thanh', false)->with('tramDon')->with('tramTra')->with('user')->with('chuyenXe')->get();
             return [
                 'code' => 200,
                 'status' => true,

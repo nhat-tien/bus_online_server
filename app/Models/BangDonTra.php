@@ -21,6 +21,7 @@ class BangDonTra extends Model
         'trang_thai_thanh_toan',
         'tien_phi',
         'so_luong',
+        'chieu',
     ];
 
     public function chuyenXe(): BelongsTo

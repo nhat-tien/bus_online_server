@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\BangDonTraCollection;
 use App\Http\Services\Api\CustomerService;
 use App\Http\Services\Api\DriverService;
 use Illuminate\Http\Request;
