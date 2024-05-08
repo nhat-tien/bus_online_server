@@ -40,6 +40,7 @@ class CustomerService
             $bangDonTra = BangDonTra::create([
                 'ma_chuyen' => $request->maChuyen,
                 'ma_khach_hang' => $user->id,
+                'ten_khach_hang' => $user->name,
                 'ma_tram_di' => $request->maTramDi,
                 'ma_tram_den' => $request->maTramDen,
                 'hoan_thanh' => false,

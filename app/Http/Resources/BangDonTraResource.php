@@ -22,6 +22,7 @@ class BangDonTraResource extends JsonResource
             'maChuyen' => $this->ma_chuyen,
             'chuyenXe' => new ChuyenXeResource($this->whenLoaded('chuyenXe')),
             'maKhachHang' => $this->ma_khach_hang,
+            'tenKhachHang' => $this->ten_khach_hang,
             'khachHang' => new UserResource($this->whenLoaded('user')),
             'maTramDi' => $this->ma_tram_di,
             'tramDi' => new TramResource($this->whenLoaded('tramDon')),

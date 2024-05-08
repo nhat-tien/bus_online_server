@@ -15,6 +15,7 @@ class BangDonTra extends Model
     protected $fillable = [
         'ma_chuyen',
         'ma_khach_hang',
+        'ten_khach_hang',
         'ma_tram_di',
         'ma_tram_den',
         'hoan_thanh',
