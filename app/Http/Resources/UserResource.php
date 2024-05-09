@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             "email" => $this->email,
             "phoneNumber" => $this->phone_number,
             "role" => $this->role,
+            "chuyenXe" => ChuyenXeResource::collection($this->whenLoaded("chuyenXe"))
         ];
     }
 }

@@ -105,7 +105,9 @@ class AuthenticatedService
                 ];
             }
 
-            $user = User::where('email', $request->email)->first();
+            $user = $request->role != 'driver'
+            ? User::where('email', $request->email)->first()
+            : User::where('email', $request->email)->with('chuyenXe')->first();
 
             $token = $user->createtoken('access_token');
 
