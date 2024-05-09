@@ -34,6 +34,7 @@ class BangDonTraResource extends JsonResource
             'soLuong' => $this->so_luong,
             'chieu' => $this->chieu,
             'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }
