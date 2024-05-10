@@ -69,7 +69,7 @@ class DriverService
         try {
             $maTaiXe = $request->user()->id;
             $chuyenXe = ChuyenXe::where('ma_tai_xe', $maTaiXe)->first();
-            $bangDonTra = BangDonTra::where('ma_chuyen', $chuyenXe->ma_chuyen)->where('hoan_thanh', false)->with('tramDon')->with('tramTra')->with('user')->with('chuyenXe')->get();
+            $bangDonTra = BangDonTra::where('ma_chuyen', $chuyenXe->ma_chuyen)->where('hoan_thanh', false)->orderBy('updated_at','desc')->with('tramDon')->with('tramTra')->with('user')->with('chuyenXe')->get();
             return [
                 'code' => 200,
                 'status' => true,
