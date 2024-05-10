@@ -46,7 +46,7 @@ class BangDonTra extends Model
         return $this->belongsTo(Tram::class, 'ma_tram_den', 'ma_tram');
     }
 
-    protected function serializeDate(DateTimeInterface $date): string
+    public function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }
