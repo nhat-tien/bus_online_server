@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use DateTimeInterface;
 
 class BangDonTra extends Model
 {
@@ -27,7 +28,7 @@ class BangDonTra extends Model
 
     public function chuyenXe(): BelongsTo
     {
-      return $this->belongsTo(ChuyenXe::class, 'ma_chuyen','ma_chuyen' );
+        return $this->belongsTo(ChuyenXe::class, 'ma_chuyen', 'ma_chuyen');
     }
 
     public function user(): BelongsTo
@@ -43,5 +44,10 @@ class BangDonTra extends Model
     public function tramTra(): BelongsTo
     {
         return $this->belongsTo(Tram::class, 'ma_tram_den', 'ma_tram');
+    }
+
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

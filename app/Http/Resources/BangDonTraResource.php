@@ -15,7 +15,6 @@ class BangDonTraResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $khach = User::find($this->ma_khach_hang)->first();
 
         return [
             'id' => $this->id,
@@ -33,8 +32,8 @@ class BangDonTraResource extends JsonResource
             'tienPhi' => $this->tien_phi,
             'soLuong' => $this->so_luong,
             'chieu' => $this->chieu,
-            'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at,
+            'createdAt' => $this->serializeDate($this->created_at),
+            'updatedAt' => $this->serializeDate($this->updated_at),
         ];
     }
 }
