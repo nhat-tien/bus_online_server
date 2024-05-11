@@ -50,9 +50,9 @@ class BangDonTraController extends Controller
         return response()->json($response, $response['code']);
     }
 
-    public function hoanThanh(Request $request): JsonResponse
+    public function hoanThanhTram(Request $request): JsonResponse
     {
-        $response = $this->driver->hoanThanh($request);
+        $response = $this->driver->hoanThanhTram($request);
 
         return response()->json($response, $response['code']);
     }

@@ -3,7 +3,6 @@
 namespace App\Http\Services\Api;
 
 use App\Http\Resources\BangDonTraCollection;
-use App\Http\Resources\BangDonTraResource;
 use App\Models\BangDonTra;
 use App\Models\ChuyenXe;
 use Illuminate\Http\Request;
@@ -14,11 +13,11 @@ class DriverService
     /**
      * @return array<string,mixed>
      */
-    public function hoanThanh(Request $request): array
+    public function hoanThanhTram(Request $request): array
     {
         try {
             $validate = Validator::make($request->all(), [
-                'id' => ['required','numeric'],
+                'maTramDen' => ['required'],
             ]);
 
             if ($validate->fails()) {
@@ -31,25 +30,16 @@ class DriverService
             };
 
             $chuyenXe = ChuyenXe::where('ma_tai_xe',$request->user()->id)->first();
-            $bangDonTra = BangDonTra::find($request->id);
-
-            if($chuyenXe->ma_chuyen != $bangDonTra->ma_chuyen) {
-                return [
-                     'code' => 400,
-                     'status' => false,
-                     'message' => 'Ma Chuyen Khong Khop',
-                 ];
-            }
-
-            $bangDonTra->hoan_thanh = true;
-
-            $bangDonTra->save();
+            $bangDonTra = BangDonTra::where('ma_chuyen', $chuyenXe->ma_chuyen)
+                ->where('ma_tram_den', $request->maTramDen)
+                ->where('hoan_thanh', false)
+                ->where('trang_thai_thanh_toan', 'done')
+                ->update(['hoan_thanh' => true]);
 
             return [
                 'code' => 200,
                 'status' => true,
                 'message' => 'Cap Nhat Thanh Cong',
-                'bangDonTra' => new BangDonTraResource($bangDonTra),
             ];
 
         } catch (\Throwable $th) {
