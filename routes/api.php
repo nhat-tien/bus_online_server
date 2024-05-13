@@ -42,6 +42,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api'], func
 
         Route::get('/tuyen/{ma_tuyen}/chuyen-xe', [ChuyenXeController::class, 'index']);
 
+        Route::get('/chuyen-xe/{ma_chuyen}', [ChuyenXeController::class, 'show']);
+
         Route::group(['prefix' => 'customer','middleware' => 'role:customer'], function () {
 
             Route::get('/bang-don-tra',[BangDonTraController::class, 'getChuyenXeDaDangKi'] );
