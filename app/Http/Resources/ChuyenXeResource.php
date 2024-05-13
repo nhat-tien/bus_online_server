@@ -18,6 +18,7 @@ class ChuyenXeResource extends JsonResource
 
         return [
             'maChuyen' => $this->ma_chuyen,
+            'chuyen' => new TuyenResource($this->whenLoaded('tuyen')),
             'taiXe' => new UserResource($this->whenLoaded('user')),
             'maXe' => $this->ma_xe,
             'gioLuotDi' => $this->luot_di,

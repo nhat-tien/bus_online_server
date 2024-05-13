@@ -20,7 +20,7 @@ class ChuyenXeController extends Controller
 
     public function show(string $ma_chuyen): ChuyenXeResource
     {
-        $chuyenXe = ChuyenXe::where('ma_chuyen', $ma_chuyen)->first();
+        $chuyenXe = ChuyenXe::where('ma_chuyen', $ma_chuyen)->with('tuyen')->first();
 
         return new ChuyenXeResource($chuyenXe);
     }
